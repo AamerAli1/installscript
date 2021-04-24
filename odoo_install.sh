@@ -32,14 +32,14 @@ INSTALL_NGINX="False"
 # Set the superadmin password - if GENERATE_RANDOM_PASSWORD is set to "True" we will automatically generate a random password, otherwise we use this one
 OE_SUPERADMIN="admin"
 # Set to "True" to generate a random password, "False" to use the variable in OE_SUPERADMIN
-GENERATE_RANDOM_PASSWORD="False"
+GENERATE_RANDOM_PASSWORD="false"
 OE_CONFIG="${OE_USER}-server"
 # Set the website name
 WEBSITE_NAME="_"
 # Set the default Odoo longpolling port (you still have to use -c /etc/odoo-server.conf for example to use this.)
 LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
-ENABLE_SSL="False"
+ENABLE_SSL="false"
 # Provide Email to register ssl certificate
 ADMIN_EMAIL="odoo@example.com"
 ##
@@ -82,6 +82,7 @@ sudo -H pip3 install -r https://github.com/odoo/odoo/raw/${OE_VERSION}/requireme
 
 echo -e "\n---- Installing nodeJS NPM and rtlcss for LTR support ----"
 sudo apt-get install nodejs npm -y
+sudo npm install -g rtlcss
 
 #--------------------------------------------------
 # Install Wkhtmltopdf if needed
