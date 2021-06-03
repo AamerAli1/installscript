@@ -82,7 +82,6 @@ sudo -H pip3 install -r https://github.com/odoo/odoo/raw/${OE_VERSION}/requireme
 
 echo -e "\n---- Installing nodeJS NPM and rtlcss for LTR support ----"
 sudo apt-get install nodejs npm -y
-sudo npm install -g rtlcss
 
 #--------------------------------------------------
 # Install Wkhtmltopdf if needed
