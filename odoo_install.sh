@@ -26,7 +26,7 @@ OE_PORT="8069"
 # IMPORTANT! This script contains extra libraries that are specifically needed for Odoo 13.0
 OE_VERSION="13.0"
 # Set this to True if you want to install the Odoo enterprise version!
-IS_ENTERPRISE="True"
+IS_ENTERPRISE="False"
 # Set this to True if you want to install Nginx!
 INSTALL_NGINX="False"
 # Set the superadmin password - if GENERATE_RANDOM_PASSWORD is set to "True" we will automatically generate a random password, otherwise we use this one
@@ -82,7 +82,6 @@ sudo -H pip3 install -r https://github.com/odoo/odoo/raw/${OE_VERSION}/requireme
 
 echo -e "\n---- Installing nodeJS NPM and rtlcss for LTR support ----"
 sudo apt-get install nodejs npm -y
-sudo npm install -g rtlcss
 
 #--------------------------------------------------
 # Install Wkhtmltopdf if needed
