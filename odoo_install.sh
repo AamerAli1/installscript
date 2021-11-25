@@ -39,9 +39,9 @@ WEBSITE_NAME="_"
 # Set the default Odoo longpolling port (you still have to use -c /etc/odoo-server.conf for example to use this.)
 LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
-ENABLE_SSL="True"
+ENABLE_SSL="False"
 # Provide Email to register ssl certificate
-ADMIN_EMAIL="aamer@expertsintech.com"
+ADMIN_EMAIL="odoo@example.com"
 ##
 ###  WKHTMLTOPDF download links
 ## === Ubuntu Trusty x64 & x32 === (for other distributions please replace these two links,
@@ -49,8 +49,6 @@ ADMIN_EMAIL="aamer@expertsintech.com"
 ## https://github.com/odoo/odoo/wiki/Wkhtmltopdf ):
 ## https://www.odoo.com/documentation/13.0/setup/install.html#debian-ubuntu
 
-WKHTMLTOX_X64=https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.trusty_amd64.deb
-WKHTMLTOX_X32=https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.trusty_i386.deb
 #--------------------------------------------------
 # Update Server
 #--------------------------------------------------
@@ -81,7 +79,7 @@ echo -e "\n---- Install python packages/requirements ----"
 sudo -H pip3 install -r https://github.com/odoo/odoo/raw/${OE_VERSION}/requirements.txt
 
 echo -e "\n---- Installing nodeJS NPM and rtlcss for LTR support ----"
-sudo apt-get install nodejs npm -y
+
 
 #--------------------------------------------------
 # Install Wkhtmltopdf if needed
@@ -268,10 +266,8 @@ if [ $INSTALL_NGINX = "True" ]; then
   cat <<EOF > ~/odoo
   server {
   listen 80;
-
   # set proper server name after domain set
   server_name $WEBSITE_NAME;
-
   # Add Headers for odoo proxy mode
   proxy_set_header X-Forwarded-Host \$host;
   proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -281,28 +277,22 @@ if [ $INSTALL_NGINX = "True" ]; then
   add_header X-XSS-Protection "1; mode=block";
   proxy_set_header X-Client-IP \$remote_addr;
   proxy_set_header HTTP_X_FORWARDED_HOST \$remote_addr;
-
   #   odoo    log files
   access_log  /var/log/nginx/$OE_USER-access.log;
   error_log       /var/log/nginx/$OE_USER-error.log;
-
   #   increase    proxy   buffer  size
   proxy_buffers   16  64k;
   proxy_buffer_size   128k;
-
   proxy_read_timeout 900s;
   proxy_connect_timeout 900s;
   proxy_send_timeout 900s;
-
   #   force   timeouts    if  the backend dies
   proxy_next_upstream error   timeout invalid_header  http_500    http_502
   http_503;
-
   types {
   text/less less;
   text/scss scss;
   }
-
   #   enable  data    compression
   gzip    on;
   gzip_min_length 1100;
@@ -312,13 +302,11 @@ if [ $INSTALL_NGINX = "True" ]; then
   client_header_buffer_size 4k;
   large_client_header_buffers 4 64k;
   client_max_body_size 0;
-
   location / {
   proxy_pass    http://127.0.0.1:$OE_PORT;
   # by default, do not forward anything
   proxy_redirect off;
   }
-
   location /longpolling {
   proxy_pass http://127.0.0.1:$LONGPOLLING_PORT;
   }
